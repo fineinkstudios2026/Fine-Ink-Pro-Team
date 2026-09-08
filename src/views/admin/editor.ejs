@@ -1,0 +1,20 @@
+<%- include('../partials/admin-head',{title:'Website Editor'}) %>
+<div class="admin-top"><div><p class="kicker">Design & Content</p><h1>Website Editor</h1><p class="admin-subcopy">Edit the website text and typography. Artist-specific content remains under Artists.</p></div><a class="admin-button secondary" href="/" target="_blank">Open Site ↗</a></div>
+<% if(saved){ %><div class="alert success">Website changes saved.</div><% } %>
+<div class="editor-layout"><form method="post" action="/admin/editor" class="editor-controls">
+<div class="editor-toolbar"><button class="admin-button" type="submit">Save Changes</button><span>Available fonts: Anton · Bodoni Moda · Inter · Festigan</span></div>
+<% let lastPage='',lastSection=''; blocks.forEach(b=>{ if(b.page!==lastPage){lastPage=b.page;lastSection='';%><h2 class="editor-page"><%= b.page %></h2><%} if(b.section!==lastSection){lastSection=b.section;%><h3 class="editor-section"><%= b.section %></h3><%}%>
+<section class="block-editor"><div class="block-editor-head"><strong><%= b.label %></strong><code><%= b.key %></code></div>
+<label>Text<textarea name="<%= b.key %>__value" rows="<%= b.value.length>90?4:2 %>"><%= b.value %></textarea></label>
+<div class="type-controls">
+<label>Font<select name="<%= b.key %>__font"><% ['Anton','Bodoni Moda','Inter','Festigan'].forEach(f=>{ %><option <%= b.font===f?'selected':'' %>><%= f %></option><% }) %></select></label>
+<label>Size (px)<input type="number" min="8" max="180" name="<%= b.key %>__size" value="<%= b.size %>"></label>
+<label>Weight<select name="<%= b.key %>__weight"><% [300,400,500,600].forEach(w=>{ %><option value="<%= w %>" <%= Number(b.weight)===w?'selected':'' %>><%= w %></option><% }) %></select></label>
+<label>Style<select name="<%= b.key %>__style"><option value="normal" <%= b.style==='normal'?'selected':'' %>>Normal</option><option value="italic" <%= b.style==='italic'?'selected':'' %>>Italic</option></select></label>
+<label>Case<select name="<%= b.key %>__transform"><% ['none','uppercase','lowercase','capitalize'].forEach(x=>{ %><option value="<%= x %>" <%= b.transform===x?'selected':'' %>><%= x %></option><% }) %></select></label>
+<label>Align<select name="<%= b.key %>__align"><% ['left','center','right'].forEach(x=>{ %><option value="<%= x %>" <%= b.align===x?'selected':'' %>><%= x %></option><% }) %></select></label>
+</div></section><% }) %>
+<div class="editor-bottom"><button class="admin-button" type="submit">Save All Changes</button></div></form>
+<aside class="live-preview"><div class="preview-bar"><strong>Site Preview</strong><div><button type="button" data-preview="desktop">Desktop</button><button type="button" data-preview="mobile">Mobile</button><button type="button" id="refreshPreview">Refresh</button></div></div><div class="preview-stage"><iframe id="sitePreview" src="/"></iframe></div></aside></div>
+<script>const frame=document.getElementById('sitePreview'),stage=document.querySelector('.preview-stage');document.querySelectorAll('[data-preview]').forEach(b=>b.onclick=()=>stage.dataset.mode=b.dataset.preview);document.getElementById('refreshPreview').onclick=()=>frame.src='/?preview='+Date.now();</script>
+<%- include('../partials/admin-foot') %>
