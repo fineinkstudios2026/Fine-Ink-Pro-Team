@@ -1,0 +1,52 @@
+<%- include('../partials/head',{settings,pageTitle:settings.meta_title,pageDescription:settings.meta_description}) %>
+<main><section class="hero"><div class="hero-copy"><p class="eyebrow" style="<%= blockStyle(blocks.hero_eyebrow) %>"><%= blocks.hero_eyebrow.value %></p><h1 style="<%= blockStyle(blocks.hero_title) %>"><%= blocks.hero_title.value %></h1><p class="script" style="<%= blockStyle(blocks.hero_script) %>"><%= blocks.hero_script.value %></p><h2 style="<%= blockStyle(blocks.hero_heading) %>"><%= blocks.hero_heading.value %></h2><p class="lead" style="<%= blockStyle(blocks.hero_body) %>"><%= blocks.hero_body.value %></p><div class="actions"><a class="button" style="<%= blockStyle(blocks.hero_cta_primary) %>" href="#consultation"><%= blocks.hero_cta_primary.value %></a><a class="button outline" style="<%= blockStyle(blocks.hero_cta_secondary) %>" href="#artists"><%= blocks.hero_cta_secondary.value %></a></div></div><div class="hero-placeholder"><span>HERO IMAGE</span></div></section>
+<section id="artists" class="section"><div class="center section-title"><p class="eyebrow" style="<%= blockStyle(blocks.artists_eyebrow) %>"><%= blocks.artists_eyebrow.value %></p><h2 style="<%= blockStyle(blocks.artists_heading) %>"><%= blocks.artists_heading.value %></h2></div><div class="artist-carousel-shell" data-artist-carousel><button class="artist-carousel-arrow artist-carousel-prev" type="button" aria-label="Previous artists">←</button><div class="artist-grid artist-carousel-track" tabindex="0"><% artists.forEach(artist=>{ %><article class="artist-card"><a href="/artists/<%= artist.slug %>"><% if(artist.profile_image){ %><img src="<%= artist.profile_image %>" alt="<%= artist.name %>"><% }else{ %><div class="img-placeholder">ARTIST PHOTO</div><% } %><div class="artist-info"><p><%= artist.specialty %></p><h3><%= artist.name %></h3><span style="<%= blockStyle(blocks.artist_card_cta) %>"><%= blocks.artist_card_cta.value %></span></div></a></article><% }) %></div><button class="artist-carousel-arrow artist-carousel-next" type="button" aria-label="Next artists">→</button></div></section>
+<section id="experience" class="experience"><div class="experience-placeholder">COLLECTOR EXPERIENCE IMAGE</div><div class="experience-copy"><p class="script" style="<%= blockStyle(blocks.experience_script) %>"><%= blocks.experience_script.value %></p><h2 style="<%= blockStyle(blocks.experience_heading) %>"><%= blocks.experience_heading.value %></h2><p style="<%= blockStyle(blocks.experience_body) %>"><%= blocks.experience_body.value %></p><ul style="<%= blockStyle(blocks.experience_list) %>"><% blocks.experience_list.value.split('\n').filter(Boolean).forEach(item=>{ %><li><%= item %></li><% }) %></ul><a class="button" style="<%= blockStyle(blocks.experience_cta) %>" href="#consultation"><%= blocks.experience_cta.value %></a></div></section>
+<section id="portfolio" class="section portfolio-section"><div><p class="eyebrow" style="<%= blockStyle(blocks.portfolio_eyebrow) %>"><%= blocks.portfolio_eyebrow.value %></p><h2 style="<%= blockStyle(blocks.portfolio_heading) %>"><%= blocks.portfolio_heading.value %></h2><p class="script" style="<%= blockStyle(blocks.portfolio_script) %>"><%= blocks.portfolio_script.value %></p></div><div class="portfolio-grid"><% if(featuredWork.length){ featuredWork.forEach(item=>{ %><a href="/artists/<%= item.artist_slug %>" class="portfolio-piece"><img src="<%= item.image_path %>" alt="<%= item.alt_text||item.title||item.artist_name %>"></a><% }) } else { for(let i=0;i<6;i++){ %><div class="portfolio-placeholder">PORTFOLIO IMAGE</div><% } } %></div></section>
+
+<section id="process" class="section process-section">
+  <div class="center section-title process-title">
+    <p class="eyebrow" style="<%= blockStyle(blocks.process_eyebrow) %>"><%= blocks.process_eyebrow.value %></p>
+    <h2 style="<%= blockStyle(blocks.process_heading) %>"><%= blocks.process_heading.value %></h2>
+    <p class="process-intro" style="<%= blockStyle(blocks.process_body) %>"><%= blocks.process_body.value %></p>
+  </div>
+  <div class="process-grid">
+    <% for(let i=1;i<=5;i++){ const n=blocks[`process_step_${i}_number`], t=blocks[`process_step_${i}_title`], b=blocks[`process_step_${i}_body`]; %>
+      <article class="process-card">
+        <div class="process-number" style="<%= blockStyle(n) %>"><%= n.value %></div>
+        <h3 style="<%= blockStyle(t) %>"><%= t.value %></h3>
+        <p style="<%= blockStyle(b) %>"><%= b.value %></p>
+      </article>
+    <% } %>
+  </div>
+</section>
+
+<section id="testimonial" class="testimonial-section">
+  <div class="testimonial-inner">
+    <p class="eyebrow" style="<%= blockStyle(blocks.testimonial_eyebrow) %>"><%= blocks.testimonial_eyebrow.value %></p>
+    <blockquote style="<%= blockStyle(blocks.testimonial_quote) %>"><%= blocks.testimonial_quote.value %></blockquote>
+    <p class="testimonial-name" style="<%= blockStyle(blocks.testimonial_name) %>"><%= blocks.testimonial_name.value %></p>
+    <p class="testimonial-detail" style="<%= blockStyle(blocks.testimonial_detail) %>"><%= blocks.testimonial_detail.value %></p>
+  </div>
+</section>
+
+<section id="consultation" class="consultation"><div><p class="eyebrow" style="<%= blockStyle(blocks.consult_eyebrow) %>"><%= blocks.consult_eyebrow.value %></p><h2 style="<%= blockStyle(blocks.consult_heading) %>"><%= blocks.consult_heading.value %></h2><p class="script" style="<%= blockStyle(blocks.consult_script) %>"><%= blocks.consult_script.value %></p></div><div class="embed-shell"><% if(settings.consultation_embed_url){ %><iframe src="<%= settings.consultation_embed_url %>" title="Consultation form" loading="lazy"></iframe><% }else{ %><div class="form-placeholder"><strong>EXTERNAL FORM EMBED</strong><p>Add your FIcomm-connected form URL in Admin → Site Settings.</p></div><% } %></div></section>
+
+<section id="faq" class="section faq-section">
+  <div class="center section-title faq-title">
+    <p class="eyebrow" style="<%= blockStyle(blocks.faq_eyebrow) %>"><%= blocks.faq_eyebrow.value %></p>
+    <h2 style="<%= blockStyle(blocks.faq_heading) %>"><%= blocks.faq_heading.value %></h2>
+    <p class="faq-intro" style="<%= blockStyle(blocks.faq_intro) %>"><%= blocks.faq_intro.value %></p>
+  </div>
+  <div class="faq-list">
+    <% for(let i=1;i<=5;i++){ const q=blocks[`faq_q${i}`], a=blocks[`faq_a${i}`]; %>
+      <details class="faq-item">
+        <summary><span style="<%= blockStyle(q) %>"><%= q.value %></span><b>+</b></summary>
+        <div class="faq-answer" style="<%= blockStyle(a) %>"><%= a.value %></div>
+      </details>
+    <% } %>
+  </div>
+</section>
+
+</main>
+<%- include('../partials/foot') %>
